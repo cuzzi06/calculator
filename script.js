@@ -38,6 +38,9 @@ function operate(operator, num1, num2) {
 const display = document.querySelector(".display");
 const numbers = document.querySelectorAll(".number");
 const displayValue = document.querySelector("#displayValue");
+const operatorButtons = document.querySelectorAll(".operator");
+const equalButton = document.querySelector("#equal");
+const clearButton = document.querySelector("#clear");
 
 numbers.forEach((button) => {
   button.addEventListener("click", () => {
@@ -47,4 +50,37 @@ numbers.forEach((button) => {
       displayValue.textContent += button.textContent;
     }
   });
+});
+
+operatorButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    num1 = parseFloat(displayValue.textContent);
+    operator = button.textContent;
+    displayValue.textContent = "";
+  });
+});
+
+equalButton.addEventListener("click", () => {
+  if (
+    operator === null ||
+    isNaN(num1) ||
+    isNaN(parseFloat(displayValue.textContent))
+  ) {
+    displayValue.textContent = "Error";
+    return;
+  }
+
+  num2 = parseFloat(displayValue.textContent);
+  const result = operate(operator, num1, num2);
+  displayValue.textContent = result;
+  num1 = result;
+  operator = null;
+  num2 = null;
+});
+
+clearButton.addEventListener("click", () => {
+  num1 = null;
+  num2 = null;
+  operator = null;
+  displayValue.textContent = "0";
 });
