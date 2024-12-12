@@ -39,8 +39,8 @@ const display = document.querySelector(".display");
 const numbers = document.querySelectorAll(".number");
 const displayValue = document.querySelector("#displayValue");
 const operatorButtons = document.querySelectorAll(".operator");
-const equalButton = document.querySelector("#equal");
-const clearButton = document.querySelector("#clear");
+const equalButton = document.querySelector(".equals");
+const clearButton = document.querySelector(".clear");
 
 function roundResult(value) {
   return Math.round(value * 100000) / 100000; // Redondea a 5 decimales
