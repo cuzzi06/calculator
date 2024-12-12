@@ -19,22 +19,32 @@ let num2 = null;
 function operate(operator, num1, num2) {
   switch (operator) {
     case "+":
-      add(num1, num2);
-      break;
+      return add(num1, num2);
 
     case "-":
-      subtract(num1, num2);
-      break;
+      return subtract(num1, num2);
 
     case "*":
-      multiply(num1, num2);
-      break;
+      return multiply(num1, num2);
 
     case "/":
-      divide(num1, num2);
-      break;
+      return divide(num1, num2);
 
     default:
-      break;
+      return "Invalid operator";
   }
 }
+
+const display = document.querySelector(".display");
+const numbers = document.querySelectorAll(".number");
+const displayValue = document.querySelector("#displayValue");
+
+numbers.forEach((button) => {
+  button.addEventListener("click", () => {
+    if (displayValue.textContent === "0") {
+      displayValue.textContent = button.textContent;
+    } else {
+      displayValue.textContent += button.textContent;
+    }
+  });
+});
