@@ -42,21 +42,40 @@ const operatorButtons = document.querySelectorAll(".operator");
 const equalButton = document.querySelector("#equal");
 const clearButton = document.querySelector("#clear");
 
+let shouldResetDisplay = false;
+
 numbers.forEach((button) => {
   button.addEventListener("click", () => {
-    if (displayValue.textContent === "0") {
+    if (shouldResetDisplay) {
+      // Limpia el display antes de ingresar el nuevo número
       displayValue.textContent = button.textContent;
+      shouldResetDisplay = false;
     } else {
-      displayValue.textContent += button.textContent;
+      // Continua escribiendo números
+      if (displayValue.textContent === "0") {
+        displayValue.textContent = button.textContent;
+      } else {
+        displayValue.textContent += button.textContent;
+      }
     }
   });
 });
 
 operatorButtons.forEach((button) => {
   button.addEventListener("click", () => {
-    num1 = parseFloat(displayValue.textContent);
-    operator = button.textContent;
-    displayValue.textContent = "";
+    const currentValue = parseFloat(displayValue.textContent);
+
+    if (num1 !== null && operator !== null) {
+      // Calcula el resultado parcial
+      const result = operate(operator, num1, currentValue);
+      num1 = result; // Actualiza num1 con el resultado parcial
+      displayValue.textContent = result; // Muestra el resultado parcial
+    } else {
+      num1 = currentValue; // Guarda el primer número
+    }
+
+    operator = button.textContent; // Actualiza el operador
+    shouldResetDisplay = true; // Marca que el próximo número debe limpiar el display
   });
 });
 
@@ -76,6 +95,7 @@ equalButton.addEventListener("click", () => {
   num1 = result;
   operator = null;
   num2 = null;
+  shouldResetDisplay = true; // Limpia el display para la siguiente entrada
 });
 
 clearButton.addEventListener("click", () => {
@@ -83,4 +103,5 @@ clearButton.addEventListener("click", () => {
   num2 = null;
   operator = null;
   displayValue.textContent = "0";
+  shouldResetDisplay = false;
 });
