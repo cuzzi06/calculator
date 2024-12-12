@@ -42,6 +42,10 @@ const operatorButtons = document.querySelectorAll(".operator");
 const equalButton = document.querySelector("#equal");
 const clearButton = document.querySelector("#clear");
 
+function roundResult(value) {
+  return Math.round(value * 100000) / 100000; // Redondea a 5 decimales
+}
+
 let shouldResetDisplay = false;
 
 numbers.forEach((button) => {
@@ -66,9 +70,9 @@ operatorButtons.forEach((button) => {
     const currentValue = parseFloat(displayValue.textContent);
 
     if (num1 !== null && operator !== null) {
-      // Calcula el resultado parcial
-      const result = operate(operator, num1, currentValue);
-      num1 = result; // Actualiza num1 con el resultado parcial
+      // Calcula el resultado parcial y lo redondea
+      const result = roundResult(operate(operator, num1, currentValue));
+      num1 = result; // Actualiza num1 con el resultado parcial redondeado
       displayValue.textContent = result; // Muestra el resultado parcial
     } else {
       num1 = currentValue; // Guarda el primer número
@@ -90,9 +94,9 @@ equalButton.addEventListener("click", () => {
   }
 
   num2 = parseFloat(displayValue.textContent);
-  const result = operate(operator, num1, num2);
-  displayValue.textContent = result;
-  num1 = result;
+  const result = roundResult(operate(operator, num1, num2));
+  displayValue.textContent = result; // Muestra el resultado final redondeado
+  num1 = result; // Prepara num1 para operaciones futuras
   operator = null;
   num2 = null;
   shouldResetDisplay = true; // Limpia el display para la siguiente entrada
